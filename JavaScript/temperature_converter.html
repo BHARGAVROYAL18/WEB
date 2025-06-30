@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #heading{
+            font-family: 'Times New Roman', Times, serif;
+            color:aqua;
+        }
+        #submit{
+            color: brown;
+            background-color: aqua;
+            margin-left: 33%;
+        }
+        #table{
+            border: 2px;
+            border-color: black;
+        }
+    </style>
+</head>
+<body>
+    <table style="display: flex;justify-content: center; margin-top: 37%;" id="table">
+        <tr>
+            <td id="heading">Temperature Conversion</td>
+        </tr>
+        <tr>
+            <td><input id="input" type="number"></td>
+        </tr>
+        <tr>
+            <td><input type="radio" name="first" id="type1"><label for="type1">Celsius to fahrenheit</label></td>
+        </tr>
+        <tr>
+            <td><input type="radio" name="first" id="type2"><label for="type2"> Fahrenheit to celsius</label></td>
+        </tr>
+
+        <tr>
+            <td><input type="submit" id="submit" onclick="func()"></td>
+        </tr>
+        <tr>
+            <td><h1 id="output"></h1></td>
+        </tr>
+    </table>
+    <script>
+        function func(){
+            var button1=document.getElementById("type1");
+            var button2=document.getElementById("type2");
+            var temp=document.getElementById("input").value;
+            if(button1.click){
+                var output=temp * 9 / 5 + 32;
+                document.getElementById("output").textContent=output;
+
+            }
+            else{
+                var output=(temp - 32) * (5 / 9);
+                document.getElementById("output").textContent=output;
+            }
+        }
+    </script>
+</body>
+</html>

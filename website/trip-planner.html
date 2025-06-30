@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Planner</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2d6cdf;
+      --secondary: #f5f7fa;
+      --navbar-bg: #1a2233;
+      --navbar-hover: #2d6cdf;
+      --navbar-accent: #fbbf24;
+      --text-main: #222;
+      --text-light: #fff;
+      --section-bg: #fff;
+      --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--secondary);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+    }
+    .navbar {
+      width: 60px;
+      background: var(--navbar-bg);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 0 0 0;
+      position: fixed;
+      height: 100vh;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.04);
+      transition: width 0.8s cubic-bezier(.4,2,.6,1), background 0.3s;
+      z-index: 10;
+      overflow-x: hidden;
+    }
+    .navbar:hover {
+      width: 220px;
+    }
+    .navbar h2 {
+      margin-bottom: 40px;
+      font-size: 1.7rem;
+      letter-spacing: 2px;
+      color: var(--navbar-accent);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s 0.1s;
+      pointer-events: none;
+    }
+    .navbar:hover h2 {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .nav-links {
+      list-style: none;
+      padding: 0;
+      width: 100%;
+    }
+    .nav-links li {
+      width: 100%;
+    }
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 16px 0 16px 18px;
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      transition: background 0.2s, color 0.2s, padding 0.15s;
+      border-left: 4px solid transparent;
+      white-space: nowrap;
+    }
+    .nav-links a i {
+      font-size: 1.3rem;
+      min-width: 24px;
+      text-align: center;
+    }
+    .nav-links a span {
+      opacity: 0;
+      transition: opacity 0.2s 0.1s;
+      pointer-events: none;
+    }
+    .navbar:hover .nav-links a span {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--navbar-hover);
+      color: var(--navbar-accent);
+      border-left: 4px solid var(--navbar-accent);
+    }
+    .main-content {
+      margin-left: 60px;
+      padding: 0;
+      width: 100%;
+      transition: margin-left 0.8s cubic-bezier(.4,2,.6,1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .navbar:hover ~ .main-content {
+      margin-left: 220px;
+    }
+    section {
+      margin-bottom: 48px;
+      background: var(--section-bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 32px 28px;
+      max-width: 700px;
+      width: 100%;
+      box-sizing: border-box;
+      color: var(--text-main);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #home {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--section-bg);
+      box-shadow: var(--shadow);
+      border-radius: 0 0 12px 12px;
+      margin-bottom: 0;
+      padding-top: 120px;
+      padding-bottom: 80px;
+      max-width: 700px;
+      width: 100%;
+      box-sizing: border-box;
+      color: var(--text-main);
+    }
+    .hero-img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      border: 4px solid var(--navbar-accent);
+      background: #fff;
+    }
+    h1, h2, h3 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    .trip-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .trip-form input, .trip-form select, .trip-form button {
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+      outline: none;
+    }
+    .trip-form button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .trip-form button:hover {
+      background: #1746a2;
+    }
+    .trips-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .trips-list li {
+      background: var(--secondary);
+      margin-bottom: 16px;
+      padding: 16px 18px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .explore-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+    }
+    .explore-card {
+      background: var(--secondary);
+      border-radius: 10px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+      padding: 18px 16px;
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .explore-card img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .explore-card h4 {
+      margin: 8px 0 4px 0;
+      color: var(--primary);
+    }
+    .explore-card p {
+      font-size: 0.97rem;
+      color: #555;
+    }
+    @media (max-width: 800px) {
+      .main-content {
+        margin-left: 0;
+        padding: 24px 2vw;
+      }
+      .navbar {
+        position: static;
+        width: 100%;
+        flex-direction: row;
+        height: auto;
+        padding: 16px 0;
+        box-shadow: none;
+      }
+      .nav-links {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+      }
+      .nav-links li {
+        width: auto;
+      }
+      .nav-links a {
+        padding: 10px 18px;
+        border-left: none;
+        border-bottom: 2px solid transparent;
+      }
+      .nav-links a:hover, .nav-links a.active {
+        border-left: none;
+        border-bottom: 2px solid var(--navbar-accent);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <h2>TripPlanner</h2>
+    <ul class="nav-links">
+      <li><a href="#home" class="active"><i class="fas fa-map-marked-alt"></i><span>Home</span></a></li>
+      <li><a href="#plan"><i class="fas fa-calendar-plus"></i><span>Plan a Trip</span></a></li>
+      <li><a href="#mytrips"><i class="fas fa-suitcase-rolling"></i><span>My Trips</span></a></li>
+      <li><a href="#explore"><i class="fas fa-globe"></i><span>Explore</span></a></li>
+      <li><a href="#contact"><i class="fas fa-envelope-open-text"></i><span>Contact</span></a></li>
+    </ul>
+  </nav>
+  <main class="main-content">
+    <section id="home" class="visible">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=400&h=400&q=80" alt="Trip Planner" class="hero-img">
+      <h1>Welcome to Trip Planner</h1>
+      <p>Plan, organize, and explore your dream trips with ease. Start your next adventure now!</p>
+    </section>
+    <section id="plan">
+      <h2>Plan a Trip</h2>
+      <form class="trip-form">
+        <input type="text" placeholder="Destination" required>
+        <input type="date" placeholder="Start Date" required>
+        <input type="date" placeholder="End Date" required>
+        <select required>
+          <option value="">Select Interest</option>
+          <option value="adventure">Adventure</option>
+          <option value="relaxation">Relaxation</option>
+          <option value="culture">Culture</option>
+          <option value="nature">Nature</option>
+        </select>
+        <button type="submit">Add Trip</button>
+      </form>
+    </section>
+    <section id="mytrips">
+      <h2>My Trips</h2>
+      <ul class="trips-list">
+        <li>
+          <strong>Paris, France</strong>
+          <span>2024-07-01 to 2024-07-10</span>
+          <span>Interest: Culture</span>
+        </li>
+        <li>
+          <strong>Swiss Alps</strong>
+          <span>2024-08-15 to 2024-08-22</span>
+          <span>Interest: Adventure</span>
+        </li>
+      </ul>
+    </section>
+    <section id="explore">
+      <h2>Explore Destinations</h2>
+      <div class="explore-grid">
+        <div class="explore-card">
+          <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Rome">
+          <h4>Rome</h4>
+          <p>History, culture, and amazing food in the heart of Italy.</p>
+        </div>
+        <div class="explore-card">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80" alt="Maldives">
+          <h4>Maldives</h4>
+          <p>Crystal clear waters and white sand beaches for total relaxation.</p>
+        </div>
+        <div class="explore-card">
+          <img src="https://images.unsplash.com/photo-1464013778555-8e723c2f01f8?auto=format&fit=crop&w=400&q=80" alt="Tokyo">
+          <h4>Tokyo</h4>
+          <p>Modern city life meets tradition and cherry blossoms.</p>
+        </div>
+      </div>
+    </section>
+    <section id="contact">
+      <h2>Contact & Support</h2>
+      <p>Have questions or need help? Reach out to us!</p>
+      <form class="trip-form">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Your Message" rows="4" style="resize:vertical; padding:10px 12px; border-radius:6px; border:1px solid #d1d5db;"></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+  <script>
+    // Fade-in sections on scroll
+    function revealSections() {
+      const sections = document.querySelectorAll('main section');
+      const triggerBottom = window.innerHeight * 0.85;
+      sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if(sectionTop < triggerBottom) {
+          section.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealSections);
+    window.addEventListener('DOMContentLoaded', revealSections);
+  </script>
+</body>
+</html> 

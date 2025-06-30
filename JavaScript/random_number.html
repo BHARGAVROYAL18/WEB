@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="number"></h1><br>
+    <button onclick="generate()">Generate Random Number</button>
+    <h1 id="number2"></h1><br>
+    <button onclick="generate2()">Generate Random Number Between 0 to 100</button>
+    <h1 id="number3"></h1><br>
+    <button onclick="generate3()">Generate Random Number Between 1 to 100</button>
+    <script>
+        function generate(){
+            randomNum=Math.random();
+            document.getElementById("number").textContent=randomNum+" This is a Random number";
+        }
+        function generate2(){
+            randomNum=Math.floor(Math.random()*100);
+            document.getElementById("number2").textContent=randomNum+" This is a Random number between 0 to 100";
+        }
+        function generate3(){
+            randomNum=Math.floor(Math.random()*100)+1;
+            document.getElementById("number3").textContent=randomNum+" This is a Random number between 1 to 100";
+        }
+        
+    </script>
+</body>
+</html>

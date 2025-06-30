@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button{
+            background-color: aquamarine;
+            border-radius :2mm;
+        }
+    </style>
+</head>
+<body>
+
+    <table style="display: flex;justify-content: center;">
+        <tr  >
+            <td></td>
+            <td style="display: flex;align-items: center;justify-content: center;"><h1 id="counter">0</h1><br></td>
+
+        </tr>
+        <tr>
+            <td><button id="Decrease" onclick="Decrease()">Decrease</button></td>
+            <td><button id="Reset" onclick="Reset()">Reset</button></td>
+            <td><button id="Increase" onclick="Increase()">Increase</button></td>
+        </tr>
+    </table>
+
+    <script>
+        let counter=0;
+        function Increase(){
+            counter=counter+1;
+            document.getElementById('counter').textContent=counter;
+        }
+        function Decrease(){
+            if(counter>0){
+                counter=counter-1;
+                document.getElementById('counter').textContent=counter;
+            }
+            else{
+                document.getElementById('counter').textContent="You are at zero";
+            }
+        }
+        function Reset(){
+            counter=0;
+            document.getElementById('counter').textContent=counter;
+        }
+
+    </script>
+    
+    
+    
+
+</body>
+</html>
